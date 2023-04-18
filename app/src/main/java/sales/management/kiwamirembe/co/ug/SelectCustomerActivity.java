@@ -1,20 +1,17 @@
 package sales.management.kiwamirembe.co.ug;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.appcompat.widget.SearchView;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -32,58 +29,53 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CustomersFragment extends Fragment implements CustomerAdapter.CustomerAdapterListener {
-
-    DBHelper dbHelper;
+public class SelectCustomerActivity extends AppCompatActivity implements CustomerAdapter.CustomerAdapterListener {
 
     private RecyclerView recyclerView;
     //private List<Customer> customerList;
     private List<Customer> customerList = new ArrayList<>();
     private CustomerAdapter mAdapter;
-    private SearchView searchView;
-    MaterialButton add_customers_from_fragment;
+    private SearchView searchAvailableCustomers;
+    MaterialButton add_customers_from_selection_activity;
 
     String get_all_customers = "https://kiwamirembe.com/pos2/auth/get-all-customers.php";
 
-    public CustomersFragment() {
-        // Required empty public constructor
-    }
+    DBHelper dbHelper;
+
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        // return inflater.inflate(R.layout.fragment_customers, container, false);
-        View root = inflater.inflate(R.layout.fragment_customers, container, false);
-        dbHelper = new DBHelper(getActivity());
-        recyclerView = root.findViewById(R.id.customersRecyclerView);
-        searchView = root.findViewById(R.id.searchCustomers);
-        searchItems(searchView);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_select_customer);
+        getSupportActionBar().setTitle(R.string.select_customer_activity_title);
+        dbHelper = new DBHelper(this);
+        recyclerView = findViewById(R.id.customersSelectionRecyclerView);
+        searchAvailableCustomers = findViewById(R.id.searchAvailableCustomers);
+        searchItems(searchAvailableCustomers);
         customerList = dbHelper.getCustomers();
-        mAdapter = new CustomerAdapter(getActivity(), customerList, this::onCustomerSelected);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
+        mAdapter = new CustomerAdapter(getApplicationContext(), customerList, this::onCustomerSelected);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         //recyclerView.addItemDecoration(new MyDividerItemDecoration(CustomerActivity.this, DividerItemDecoration.VERTICAL, 36));
         recyclerView.setAdapter(mAdapter);
         //getCustomers(get_all_customers);
 
-        add_customers_from_fragment = root.findViewById(R.id.add_customers_from_fragment);
-        add_customers_from_fragment.setOnClickListener(new View.OnClickListener() {
+        add_customers_from_selection_activity = findViewById(R.id.add_customers_from_selection_activity);
+        add_customers_from_selection_activity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //startActivity(new Intent(getActivity(), CreateCustomerActivity.class));
-                Intent intent = new Intent(getActivity(), CreateCustomerActivity.class);
-                intent.putExtra("source","customers");
+                Intent intent = new Intent(getApplicationContext(), CreateCustomerActivity.class);
+                intent.putExtra("source","select_customers");
                 intent.putExtra("action","adding");
                 startActivity(intent);
             }
         });
 
-        return root;
     }
 
-    /*public void getCustomers(String url){
+/*    public void getCustomers(String url){
         StringRequest request = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
                     @Override
@@ -112,7 +104,7 @@ public class CustomersFragment extends Fragment implements CustomerAdapter.Custo
                                     mAdapter.notifyDataSetChanged();
                                 }
                             } else {
-                                Toast.makeText(getActivity(),"There are no customers",Toast.LENGTH_LONG).show();
+                                Toast.makeText(getApplicationContext(),"There are no customers",Toast.LENGTH_LONG).show();
                             }
                         }
                         catch (JSONException e){
@@ -122,15 +114,15 @@ public class CustomersFragment extends Fragment implements CustomerAdapter.Custo
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getActivity(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
-        RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
         requestQueue.add(request);
     }*/
 
     public void searchItems(SearchView sv) {
-        SearchManager searchManager = (SearchManager)getActivity().getSystemService(Context.SEARCH_SERVICE);
+        SearchManager searchManager = (SearchManager)getApplicationContext().getSystemService(Context.SEARCH_SERVICE);
         sv.setMaxWidth(Integer.MAX_VALUE);
         // listening to search query text change
         sv.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -150,14 +142,22 @@ public class CustomersFragment extends Fragment implements CustomerAdapter.Custo
         });
     }
 
-    public void startAddCustomerActivity(){
-        Intent intent = new Intent(getActivity(), CreateCustomerActivity.class);
-        intent.putExtra("source","customers_fragment");
-        intent.putExtra("action","adding");
-        startActivity(intent);
-    }
-
     @Override
     public void onCustomerSelected(Customer customer) {
+
+        dbHelper.updateCurrentTransactionCustomerCode(1,customer.getCustomerCode());
+        if ((dbHelper.getCurrentCustomerCode(customer.getCustomerID())).equals("none")){
+            Toast.makeText(getApplicationContext(), "Customer code not added",Toast.LENGTH_SHORT).show();
+        } else {
+            String source = getIntent().getExtras().getString("source");
+            if (source.equals("create_sale_activity")){
+                Intent intent = new Intent(getApplicationContext(), CreateSaleActivity.class);
+                startActivity(intent);
+            } else if (source.equals("cart_activity")){
+                Intent intent = new Intent(getApplicationContext(), CartActivity.class);
+                startActivity(intent);
+            }
+
+        }
     }
 }

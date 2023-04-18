@@ -4,33 +4,33 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/grey_200"
     android:id="@+id/out_layout"
+    android:padding="8dp"
     android:orientation="vertical"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".CustomersFragment">
+    tools:context=".RoutesActivity">
 
     <LinearLayout
-        android:id="@+id/search_view_and_add_customers"
+        android:id="@+id/searchRoutesLayout"
         android:weightSum="@integer/weight_sum"
+        android:layout_alignParentTop="true"
         android:orientation="horizontal"
-        android:layout_margin="8dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
         <androidx.appcompat.widget.SearchView
-            android:id="@+id/searchCustomers"
+            android:id="@+id/searchRoutes"
             android:layout_weight="@integer/weight_20"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:textColor="@color/white"
             app:iconifiedByDefault="false"
-            android:background="@color/white"
+            android:background="@color/grey_400"
             app:popupTheme="@style/Theme.Sales.PopupOverlay"
-            app:queryHint="Search customers"/>
+            app:queryHint="Search routes"/>
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/add_customers_from_fragment"
+            android:id="@+id/add_route"
             android:background="@color/white"
             android:text="Add"
             android:layout_weight="@integer/weight_80"
@@ -41,9 +41,8 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:padding="8dp"
-        android:background="@color/white"
-        android:layout_below="@+id/search_view_and_add_customers"
-        android:id="@+id/customersRecyclerView"
+        android:layout_below="@+id/searchRoutesLayout"
+        android:id="@+id/routesRecycler"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 

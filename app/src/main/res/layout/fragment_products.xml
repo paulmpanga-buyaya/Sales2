@@ -8,10 +8,10 @@
     android:id="@+id/out_layout"
     android:orientation="vertical"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".CustomersFragment">
+    tools:context=".ProductsFragment">
 
     <LinearLayout
-        android:id="@+id/search_view_and_add_customers"
+        android:id="@+id/search_view_and_add_products"
         android:weightSum="@integer/weight_sum"
         android:orientation="horizontal"
         android:layout_margin="8dp"
@@ -19,7 +19,7 @@
         android:layout_height="wrap_content">
 
         <androidx.appcompat.widget.SearchView
-            android:id="@+id/searchCustomers"
+            android:id="@+id/searchProducts"
             android:layout_weight="@integer/weight_20"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -27,10 +27,10 @@
             app:iconifiedByDefault="false"
             android:background="@color/white"
             app:popupTheme="@style/Theme.Sales.PopupOverlay"
-            app:queryHint="Search customers"/>
+            app:queryHint="Search products"/>
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/add_customers_from_fragment"
+            android:id="@+id/add_products_from_fragment"
             android:background="@color/white"
             android:text="Add"
             android:layout_weight="@integer/weight_80"
@@ -42,8 +42,8 @@
     <androidx.recyclerview.widget.RecyclerView
         android:padding="8dp"
         android:background="@color/white"
-        android:layout_below="@+id/search_view_and_add_customers"
-        android:id="@+id/customersRecyclerView"
+        android:layout_below="@+id/search_view_and_add_products"
+        android:id="@+id/productsRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="12dp"
+    tools:context=".PaymentActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:weightSum="@integer/weight_sum"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/totalSumTextStr"
+            android:text="Amount to Pay:"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:textSize="24dp"
+            android:layout_weight="@integer/weight_50"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/totalSumText"
+            android:text="0.0"
+            android:textStyle="bold"
+            android:layout_marginTop="6dp"
+            android:gravity="center"
+            android:textSize="24dp"
+            android:layout_weight="@integer/weight_50"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/dateTxt"
+        android:visibility="gone"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:weightSum="@integer/weight_sum"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/totalAmountTenderedTextStr"
+            android:text="Amount Tendered:"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:textSize="24dp"
+            android:layout_weight="@integer/weight_50"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <EditText
+            android:id="@+id/amountTendered"
+            android:hint="0.0"
+            android:textStyle="bold"
+            android:inputType="number"
+            android:layout_marginTop="6dp"
+            android:gravity="center"
+            android:textSize="24dp"
+            android:layout_weight="@integer/weight_50"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:weightSum="@integer/weight_60"
+        android:orientation="horizontal">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/paymentCash"
+            android:text="Cash"
+            android:layout_margin="2dp"
+            android:layout_weight="@integer/weight_20"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/paymentCheque"
+            android:text="Cheque"
+            android:layout_margin="2dp"
+            android:layout_weight="@integer/weight_20"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/paymentCredit"
+            android:text="Credit"
+            android:layout_margin="2dp"
+            android:layout_weight="@integer/weight_20"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+
+    </LinearLayout>
+
+
+
+</LinearLayout>

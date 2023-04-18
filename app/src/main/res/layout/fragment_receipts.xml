@@ -1,14 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/grey_200"
+    android:id="@+id/out_layout"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ReceiptsFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/searchReceipts"
+        android:layout_weight="@integer/weight_20"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        app:iconifiedByDefault="false"
+        android:background="@color/white"
+        app:popupTheme="@style/Theme.Sales.PopupOverlay"
+        app:queryHint="Search receipts"/>
 
-</FrameLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:padding="8dp"
+        android:background="@color/white"
+        android:layout_below="@+id/searchReceipts"
+        android:id="@+id/receiptsRecycler"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+</RelativeLayout>

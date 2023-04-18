@@ -1,31 +1,43 @@
 package sales.management.kiwamirembe.co.ug;
 
+import android.app.AlertDialog;
 import android.app.SearchManager;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.Toast;
+
+import com.google.android.material.button.MaterialButton;
 
 import java.util.List;
 
-public class ReceiptsFragment extends Fragment implements ReceiptAdapter.ReceiptAdapterListener {
+public class ProductsFragment extends Fragment implements ProductAdapter.ProductAdapterListener {
 
     DBHelper dbHelper;
     private RecyclerView recyclerView;
-    private List<SaleTransaction> receiptList;
-    private ReceiptAdapter mAdapter;
+    private List<Product> productList;
+    private ProductAdapter mAdapter;
     private SearchView searchView;
 
-    public ReceiptsFragment() {
+    MaterialButton add_products_from_fragment;
+
+    public ProductsFragment() {
         // Required empty public constructor
     }
 
@@ -33,15 +45,15 @@ public class ReceiptsFragment extends Fragment implements ReceiptAdapter.Receipt
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        // return inflater.inflate(R.layout.fragment_receipts, container, false);
-        View root = inflater.inflate(R.layout.fragment_receipts, container, false);
+        // return inflater.inflate(R.layout.fragment_products, container, false);
+        View root = inflater.inflate(R.layout.fragment_products, container, false);
 
         dbHelper = new DBHelper(getActivity());
-        recyclerView = root.findViewById(R.id.receiptsRecycler);
-        searchView = root.findViewById(R.id.searchReceipts);
+        recyclerView = root.findViewById(R.id.productsRecyclerView);
+        searchView = root.findViewById(R.id.searchProducts);
         searchProducts(searchView);
-        receiptList = dbHelper.getSaleTransactions();
-        mAdapter = new ReceiptAdapter(getActivity(), receiptList, this::onReceiptSelected);
+        productList = dbHelper.getProducts();
+        mAdapter = new ProductAdapter(getActivity(), productList, this::onProductSelected);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -72,14 +84,7 @@ public class ReceiptsFragment extends Fragment implements ReceiptAdapter.Receipt
     }
 
     @Override
-    public void onReceiptSelected(SaleTransaction product) {
-        //Toast.makeText(getApplicationContext(), product.getSaleItemName(),Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent(getActivity(), ViewEditSaleTransactionActivity.class);
-        intent.putExtra("identifier",product.getSaleTransactionIdentifier());
-        intent.putExtra("customerCode",product.getCustomerCode());
-        intent.putExtra("transactionTotal",String.valueOf(product.getSaleTransactionTotal()));
-        intent.putExtra("transactionDate",String.valueOf(product.getSaleTransactionDate()));
-        startActivity(intent);
+    public void onProductSelected(Product product,int count) {
     }
 
 }
